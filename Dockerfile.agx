@@ -30,6 +30,7 @@ ENV PATH="/opt/cmake3_31_6/bin:${PATH}"
 # Removing old openCV and installing openCV 4.6.0 with a script
 RUN apt-get purge -y '*opencv*' || echo "previous OpenCV installation not found" && \
     mkdir /root/Downloads && \
+    cd /root/Downloads && \
     wget -O installOpenCV.sh https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/nvidia/original/3X/1/7/175f884f3047bd0e384b2644ec67e6207b4a19cc.sh && \
     chmod +x installOpenCV.sh && \
     bash installOpenCV.sh
