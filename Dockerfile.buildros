@@ -1,0 +1,33 @@
+FROM 178669/agx_dev:openCV AS purge_openCV_apt
+
+# Shouldn't need this, but just incase
+RUN apt-get purge -y opencv-dev opencv-libs opencv-main opencv-python opencv-scripts opencv-licenses && \
+    apt upgrade -y 
+
+#------------------------------------------------------------------------------
+# Add Pavel Dependencies
+FROM purge_openCV_apt AS pavel_dep
+WORKDIR /root
+RUN --mount=type=ssh \
+    cd /root/Documents && \
+    git clone git@github.com:CAVEMaN-SeniorDesign/RealSense_API.git && \
+    cd RealSense_API && \
+    chmod +x ./tools/install_dependencies_agx.sh && \
+    ./tools/install_dependencies_agx.sh
+
+#------------------------------------------------------------------------------
+# Add Pavel Dependencies ROS2 package and attempt a build
+FROM pavel_dep AS build_ros2_rs
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \
+    cd /root/ros2_ws/src && git pull && git submodule sync && git submodule update --init --recursive && \
+    cd /root/ros2_ws/src && \
+    git clone git@github.com:CAVEMaN-SeniorDesign/ros2_realsense.git && \
+    source ~/.bashrc && \
+    cd /root/ros2_ws && \
+    colcon build --symlink-install
+
+
+
+
+
