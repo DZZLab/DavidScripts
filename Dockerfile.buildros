@@ -1,8 +1,8 @@
 FROM 178669/agx_dev:openCV AS update_apt
 
 # Shouldn't need this, but just incase
-RUN apt-get remove --purge opencv-licenses && \
-    apt-get update && \
+RUN apt-get remove -y --purge opencv-licenses && \
+    apt-get update -y && \
     apt upgrade -y 
 
 #------------------------------------------------------------------------------
