@@ -1,0 +1,51 @@
+FROM 178669/agx_dev:openCV AS update_apt
+
+# Shouldn't need this, but just incase
+RUN apt-get remove -y --purge opencv-licenses && \
+    apt-get update -y && \
+    apt upgrade -y 
+
+#------------------------------------------------------------------------------
+# Install robot_localization dependency (GeographicLib)
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \
+    cd /root/Documents && \
+    git clone git@github.com:geographiclib/geographiclib.git && \
+    cd geographiclib && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    cmake --build . && \
+    make install
+    
+#------------------------------------------------------------------------------
+# Add Pavel Dependencies
+FROM update_apt AS pavel_dep
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \
+    cd /root/Documents && \
+    git clone git@github.com:CAVEMaN-SeniorDesign/RealSense_API.git && \
+    cd RealSense_API && \
+    chmod +x ./tools/install_dependencies_agx.sh && \
+    ./tools/install_dependencies_agx.sh
+
+#------------------------------------------------------------------------------
+# Add Pavel Dependencies ROS2 package and attempt a build
+FROM pavel_dep AS add_pavel_node
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \
+    cd /root/ros2_ws/src && git pull && git submodule sync && git submodule update --init --recursive && \
+    cd /root/ros2_ws/src && \
+    git clone git@github.com:CAVEMaN-SeniorDesign/ros2_realsense.git
+
+#------------------------------------------------------------------------------
+# Additions to ~/.bashrc
+RUN echo 'export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST' >> /root/.bashrc && \
+    echo 'ROS_LOCALHOST_ONLY=1' >> /root/.bashrc
+
+
+
+
+
+
