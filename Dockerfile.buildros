@@ -1,8 +1,7 @@
-FROM 178669/agx_dev:openCV AS purge_opencv_apt
+FROM 178669/agx_dev:openCV AS update_apt
 
 # Shouldn't need this, but just incase
-RUN apt-get purge -y opencv-dev opencv-libs opencv-main opencv-python opencv-scripts opencv-licenses && \
-    apt-get update && \
+RUN apt-get update && \
     apt upgrade -y 
 
 #------------------------------------------------------------------------------
