@@ -8,6 +8,7 @@ RUN apt-get purge -y opencv-dev opencv-libs opencv-main opencv-python opencv-scr
 #------------------------------------------------------------------------------
 # Install robot_localization dependency (GeographicLib)
 SHELL ["/bin/bash", "-c"]
+RUN mkdir -p -m 0700 /root/.ssh && ssh-keyscan github.com >> /root/.ssh/known_hosts
 RUN --mount=type=ssh \
     cd /root/Documents && \
     git clone git@github.com:geographiclib/geographiclib.git && \
@@ -37,7 +38,7 @@ RUN --mount=type=ssh \
     cd /root/ros2_ws/src && git pull && git submodule sync && git submodule update --init --recursive && \
     cd /root/ros2_ws/src && \
     git clone git@github.com:CAVEMaN-SeniorDesign/ros2_realsense.git && \
-    source ~/.bashrc && \
+    source /root/.bashrc && \
     cd /root/ros2_ws && \
     colcon build --symlink-install
 
