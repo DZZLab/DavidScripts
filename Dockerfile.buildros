@@ -39,6 +39,7 @@ RUN --mount=type=ssh \
     cd /root/ros2_ws/src && \
     git clone git@github.com:CAVEMaN-SeniorDesign/ros2_realsense.git && \
     source /root/.bashrc && \
+    . /opt/ros/humble/install/setup.sh && \
     cd /root/ros2_ws && \
     colcon build --symlink-install
 
