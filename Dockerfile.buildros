@@ -1,3 +1,7 @@
 FROM 178669/agx_dev:Pavel AS colcon_build
-WORKDIR /root/ros2_ws
-RUN /bin/bash -c "source /opt/ros/humble/install/setup.bash; colcon build --symlink-install"
+WORKDIR /root/Scripts
+SHELL ["/bin/bash", "-c"]
+RUN ./librealsense_agx_install.sh
+
+# WORKDIR /root/ros2_ws
+# RUN /bin/bash -c "source /opt/ros/humble/install/setup.bash; colcon build --symlink-install"
