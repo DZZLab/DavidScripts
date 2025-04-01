@@ -5,6 +5,19 @@ RUN apt-get purge -y opencv-dev opencv-libs opencv-main opencv-python opencv-scr
     apt upgrade -y 
 
 #------------------------------------------------------------------------------
+# Install robot_localization dependency (GeographicLib)
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \
+    cd /root/Documents && \
+    git clone git@github.com:geographiclib/geographiclib.git && \
+    cd geographiclib && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    cmake --build . && \
+    make install
+    
+#------------------------------------------------------------------------------
 # Add Pavel Dependencies
 FROM purge_openCV_apt AS pavel_dep
 WORKDIR /root
