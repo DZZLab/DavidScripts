@@ -20,7 +20,7 @@ RUN --mount=type=ssh \
     
 #------------------------------------------------------------------------------
 # Add Pavel Dependencies
-FROM purge_opencv_apt AS pavel_dep
+FROM update_apt AS pavel_dep
 WORKDIR /root
 RUN --mount=type=ssh \
     cd /root/Documents && \
