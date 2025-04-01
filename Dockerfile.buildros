@@ -3,6 +3,7 @@ WORKDIR /root/Scripts
 SHELL ["/bin/bash", "-c"]
 RUN --mount=type=ssh \ 
     git pull && \
+    chmod +x librealsense_agx_install.sh && \
     ./librealsense_agx_install.sh
 
 # WORKDIR /root/ros2_ws
