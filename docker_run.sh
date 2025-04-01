@@ -39,7 +39,7 @@ printf "Argument 1 is %s\n" "$arg1"
 printf "Argument 2 is %s\n" "$arg2"
 
 echo "Creating Docker container from image: $arg2, named: $arg1"
-echo "docker run --name $arg1 --runtime=nvidia --network=host --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev:/dev -it $arg2"
+echo "docker run --name $arg1 --runtime=nvidia --gpus all --network=host --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev:/dev -it $arg2"
 
 
 if [[ $(sudo lshw -C display | grep vendor) =~ Nvidia ]]; then
