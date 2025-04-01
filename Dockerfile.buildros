@@ -1,8 +1,3 @@
 FROM 178669/agx_dev:Pavel AS colcon_build
-WORKDIR /root
-SHELL ["/bin/bash", "-c"]
-RUN --mount=type=ssh && \
-    source /root/.bashrc && \
-    . /opt/ros/humble/install/setup.sh && \
-    cd /root/ros2_ws && \
-    colcon build --symlink-install
+WORKDIR /root/ros2_ws
+RUN /bin/bash -c "source /opt/ros/humble/install/setup.bash; colcon build --symlink-install"
