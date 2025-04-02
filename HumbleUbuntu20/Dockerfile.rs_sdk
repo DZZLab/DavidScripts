@@ -1,4 +1,4 @@
-FROM 178669/agx_dev:Pavel AS colcon_build
+FROM 178669/agx_dev:Pavel AS rs_sdk_install
 WORKDIR /root/Scripts
 SHELL ["/bin/bash", "-c"]
 RUN --mount=type=ssh \ 
