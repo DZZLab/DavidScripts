@@ -1,0 +1,7 @@
+FROM 178669/agx_dev:Pavel AS colcon_build
+WORKDIR /root/Scripts
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \ 
+    git pull && \
+    chmod +x librealsense_agx_install.sh && \
+    ./librealsense_agx_install.sh
