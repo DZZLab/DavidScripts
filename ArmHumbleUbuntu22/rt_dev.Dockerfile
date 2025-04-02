@@ -30,7 +30,7 @@ RUN --mount=type=ssh \
     git pull origin SD-334-Comms-refactor && \
     git submodule update --init --recursive
 
-WORKDIR /root/ros2_ws/src/rover_comms/CAVeTalk
+WORKDIR /root/ros2_ws/src/rover_comms/external/CAVeTalk
 SHELL ["/bin/bash", "-c"]
 ENV PYENV_ROOT=/root/.pyenv
 ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"

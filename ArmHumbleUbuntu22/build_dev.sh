@@ -41,8 +41,19 @@ if [ -z "$tag" ] || [ -z "$platform" ] || [ -z "$dockerfile" ]; then
     exit 1
 fi
 
-printf "Argument 1 is %s\n" "$arg1"
-printf "Argument 2 is %s\n" "$arg2"
+# Check if the tag is one of the ones that might overwrite
+if [[ "$tag" == "dev" || "$tag" == "Ubuntu22_deps" ]]; then
+  echo "Tag will be overwriting existing 178669/agx_dev:$tag, are you sure? [Y|N]"
+  read -r overwrite
+  if [[ "$overwrite" == "n" || "$overwrite" == "N" ]]; then
+    echo "Exiting... No Overwrite."
+    exit 0  # Exit the script if the user chooses "n" or "N"
+  fi
+fi
+
+printf "tag is %s\n" "$tag"
+printf "platform is %s\n" "${platform}64"
+printf "dockerfile is %s\n" "${dockerfile}"
 
 
 DOCKER_BUILDKIT=1 depot build --platform linux/${platform}64 --ssh default -t 178669/agx_dev:$tag -f $dockerfile . --push
