@@ -1,3 +1,6 @@
+#STATUS: BUILT & TESTED 
+#Combines Dockerfile.agx and Dockerfile.add_pavel
+
 FROM 178669/agx_dev:Ubuntu22 AS apt_updates
 RUN apt-get update -y && \
     apt-get upgrade -y && \
@@ -170,3 +173,10 @@ RUN --mount=type=ssh \
 RUN echo 'export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST' >> /root/.bashrc && \
     echo 'ROS_LOCALHOST_ONLY=1' >> /root/.bashrc
 
+# Build RS-SDK    
+WORKDIR /root/Scripts
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \ 
+    git pull && \
+    chmod +x librealsense_agx_install.sh && \
+    ./librealsense_agx_install.sh
