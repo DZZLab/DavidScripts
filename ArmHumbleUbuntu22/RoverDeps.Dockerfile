@@ -39,7 +39,7 @@ RUN mkdir -p -m 0700 /root/.ssh && ssh-keyscan github.com >> /root/.ssh/known_ho
 RUN --mount=type=ssh \
     mkdir -p ros2_ws/src && \
     git clone -b Ubuntu22 git@github.com:CAVEMaN-SeniorDesign/Navigation_Unit_ROS2.git ros2_ws/src && \
-    cd ros2_ws/src && git submodule sync && git submodule update --init --recursive && \
+    cd ros2_ws/src && git submodule update --init --recursive && \
     cd /root && git clone -b debugOpenCV git@github.com:DZZLab/DavidScripts.git Scripts && \
     apt install ros-humble-xacro && \
     cd /root/Scripts && \
@@ -65,14 +65,12 @@ RUN curl -fsSL https://pyenv.run | bash && \
     echo 'eval "$(pyenv init --path)"' >> /root/.bashrc && \
     echo 'eval "$(pyenv init -)"' >> /root/.bashrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> /root/.bashrc && \
-    echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/log/libabsl_log_internal_check_op.so:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/log/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/container/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/hash:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/status:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/strings:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/algorithm:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/base:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/cleanup:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/container:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/crc:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/debugging:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/flags:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/functional:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/hash:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/log:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/memory:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/meta:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/numeric:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/profiling:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/random:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/status:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/synchronization:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/time:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/types:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/utility:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/synchronization:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/synchronization/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/synchronization:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/flags:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/time/' >> /root/.bashrc && \
     source /root/.bashrc && pyenv install 3.11.11 --verbose && pyenv virtualenv 3.11.11 py311venv
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/log/libabsl_log_internal_check_op.so:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/log/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/container/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/hash:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/status:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/strings:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/algorithm:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/base:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/cleanup:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/container:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/crc:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/debugging:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/flags:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/functional:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/hash:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/log:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/memory:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/meta:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/numeric:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/profiling:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/random:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/status:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/synchronization:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/time:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/types:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/utility:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/synchronization:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/synchronization/:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/synchronization:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/flags:/root/ros2_ws/build/rover_comms/Jetson-Comms/CAVeTalk/external/protobuf/third_party/abseil-cpp/absl/time/
 
 #------------------------------------------------------------------------------
 # build CAVeTalk protobufs 😭: 
 FROM cavetalk-python AS cavetalk-proto-build
-WORKDIR /root/ros2_ws/src/rover_comms/Jetson-Comms/CAVeTalk
+WORKDIR /root/ros2_ws/src/rover_comms/external/CAVeTalk
 SHELL ["/bin/bash", "-c"]
 ENV PYENV_ROOT=/root/.pyenv
 ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
@@ -93,14 +91,14 @@ RUN export PYENV_ROOT="/root/.pyenv" && \
 #------------------------------------------------------------------------------
 # build CAVeTalk 😭: 
 FROM cavetalk-proto-build AS cavetalk-build
-WORKDIR /root/ros2_ws/src/rover_comms/Jetson-Comms/CAVeTalk
+WORKDIR /root/ros2_ws/src/rover_comms/external/CAVeTalk
 SHELL ["/bin/bash", "-c"]
 ENV PYENV_ROOT=/root/.pyenv
 ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:${PATH}"
 ENV PATH="/opt/cmake3_31_6/bin:${PATH}"
 RUN which cmake && cmake --version
 RUN source /root/.bashrc && \
-    cd /root/ros2_ws/src/rover_comms/Jetson-Comms/CAVeTalk && \
+    cd /root/ros2_ws/src/rover_comms/external/CAVeTalk && \
     cd tools/cppcheck/cppcheck && \
     cmake -G Ninja -B build && \
     cmake --build build && \
@@ -180,3 +178,13 @@ RUN --mount=type=ssh \
     git pull && \
     chmod +x librealsense_agx_install.sh && \
     ./librealsense_agx_install.sh
+
+
+# Install SLAM dependencies with APT
+# Install ros packages through apt
+RUN apt install -y \
+    ros-humble-navigation2 \
+    ros-humble-robot-localization \
+    ros-humble-nav2-bringup \
+    ros-humble-imu-filter-madgwick \
+    ros-humble-rtabmap-ros
