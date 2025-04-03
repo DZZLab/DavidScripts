@@ -18,18 +18,19 @@ WORKDIR /root/ros2_ws
 RUN /bin/bash -c "ls src; source /opt/ros/humble/setup.sh; colcon build --symlink-install"
 
 
-FROM apt_updates AS test_ben_refactor
+
 #------------------------------------------------------------------------------
-# build CAVeTalk protobufs 😭: 
+# Replace rover_comms with Ben's refactored rover_comms... build CAVeTalk protobufs 😭: 
+FROM apt_updates AS test_ben_refactor
 SHELL ["/bin/bash", "-c"]
 WORKDIR /root/ros2_ws/src
 RUN --mount=type=ssh \ 
-    cd rover_comms && \
-    git fetch && \
-    git checkout SD-334-Comms-refactor && \
-    git pull origin SD-334-Comms-refactor && \
-    git submodule update --init --recursive
+    rm -r rover_comms && \
+    git clone -b agx_dev git@github.com:CAVEMaN-SeniorDesign/rover_comms.git && \
+    cd rover_comms &&  git submodule update --init --recursive && cd external/CAVeTalk && git submodule update --init --recursive
 
+
+# Build protos and CAVeTalk in one step
 WORKDIR /root/ros2_ws/src/rover_comms/external/CAVeTalk
 SHELL ["/bin/bash", "-c"]
 ENV PYENV_ROOT=/root/.pyenv
@@ -47,3 +48,27 @@ RUN export PYENV_ROOT="/root/.pyenv" && \
     cmake -S . -B _build -DCMAKE_INSTALL_PREFIX=_build/protobuf-install -DCMAKE_CXX_STANDARD=20 -G Ninja -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_TESTS=OFF -DABSL_PROPAGATE_CXX_STD=ON && \
     cmake --build _build --config Release && \
     cmake --build _build -t install
+
+WORKDIR /root/ros2_ws/src/rover_comms/external/CAVeTalk
+SHELL ["/bin/bash", "-c"]
+ENV PYENV_ROOT=/root/.pyenv
+ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:${PATH}"
+ENV PATH="/opt/cmake3_31_6/bin:${PATH}"
+RUN source /root/.bashrc && \
+    cd /root/ros2_ws/src/rover_comms/external/CAVeTalk && \
+    cd tools/cppcheck/cppcheck && \
+    cmake -G Ninja -B build && \
+    cmake --build build && \
+    cd ../../.. && \
+    cd tools/uncrustify/uncrustify && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -B build && \
+    cmake --build build --config Release && \
+    cd ../../.. && \
+    cmake -B build -G Ninja && \
+    cmake --build build -t cppcheck && \
+    cmake --build build -t uncrustify && \
+    cmake --build build
+
+# Build ROS2
+WORKDIR /root/ros2_ws
+RUN /bin/bash -c "ls src; source /opt/ros/humble/setup.sh; colcon build --symlink-install"
