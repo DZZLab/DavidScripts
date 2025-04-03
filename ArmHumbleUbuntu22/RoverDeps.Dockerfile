@@ -169,7 +169,7 @@ RUN --mount=type=ssh \
 #------------------------------------------------------------------------------
 # Additions to ~/.bashrc
 RUN echo 'export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST' >> /root/.bashrc && \
-    echo 'ROS_LOCALHOST_ONLY=1' >> /root/.bashrc
+    echo 'export ROS_LOCALHOST_ONLY=1' >> /root/.bashrc
 
 # Build RS-SDK    
 WORKDIR /root/Scripts
@@ -187,4 +187,6 @@ RUN apt install -y \
     ros-humble-robot-localization \
     ros-humble-nav2-bringup \
     ros-humble-imu-filter-madgwick \
-    ros-humble-rtabmap-ros
+    ros-humble-rtabmap-ros \ 
+    ros-humble-nav2-bringup \
+    ros-humble-joint-state-publisher-gui
