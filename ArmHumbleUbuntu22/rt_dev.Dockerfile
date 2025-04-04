@@ -8,7 +8,7 @@ WORKDIR /root/ros2_ws
 RUN /bin/bash -c "ls src; source /opt/ros/humble/setup.sh; colcon build --symlink-install"
 
 
-# Addition to set colcon build default params, the cmake-args can silence some stupid warnings too 
+# Addition to set colcon build default params, the cmake-args can silence some stupid warnings too
 RUN mkdir -p /root/.colcon && \
     cat <<EOF > /root/.colcon/defaults.yaml
 build:

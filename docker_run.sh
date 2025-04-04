@@ -43,7 +43,7 @@ echo "docker run --name $arg1 --runtime=nvidia --gpus all --network=host --privi
 
 
 if [[ $(sudo lshw -C display | grep vendor) =~ Nvidia ]]; then
-  Nvidia="--runtime=nvidia"
+  Nvidia="--runtime=nvidia --gpus all"
 else
   Nvidia=" "
 fi
