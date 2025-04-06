@@ -1,0 +1,11 @@
+FROM 178669/agx_dev:ros2_build AS colcon_build
+SHELL ["/bin/bash", "-c"]
+RUN --mount=type=ssh \ 
+    mkdir -p /root/ros2_deps/src && cd /root/ros2_deps && git clone -b agx_dev git@github.com:CAVEMaN-SeniorDesign/Autonomy_Dependencies.git src && \
+    echo 'export CXXFLAGS="-Wno-pedantic"' >> /root/.bashrc && \
+    echo 'export CXXFLAGS="-Wno-dev"' >> /root/.bashrc
+    # Pray to fucking god these stupid protobuf warnings go away 
+
+# Install deps
+WORKDIR /root/ros2_deps
+RUN /bin/bash -c "ls src; source /opt/ros/humble/install/setup.bash; colcon build --symlink-install"
